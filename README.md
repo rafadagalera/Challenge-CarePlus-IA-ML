@@ -1,9 +1,9 @@
 ## Este repositório serve como entrega da Sprint 1 da Challenge da Turma 3ESPA em parceria com a CarePlus, para a disciplina de IA e Machine Learning
 ### Feito por:
-#### Beatriz Rocha
-#### Luis Alberto
-#### Isabelle Torricelli
-#### Rafael Nascimento
+#### Beatriz Rocha 553455
+#### Luis Alberto 553507
+#### Isabelle Torricelli 552806
+#### Rafael Nascimento 553117
 
 
 O dataset utilizado é o TMEDTREND_PUBLIC_250827.csv (fornecido pelo professor na entrega da Sprint), contendo dados agregados sobre o uso de telemedicina de 2020 a 2025.
