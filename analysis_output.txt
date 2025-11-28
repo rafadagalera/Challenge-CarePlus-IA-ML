@@ -1,0 +1,312 @@
+================================================================================
+ANÁLISE DE TELEMEDICINA MEDICARE - INSIGHTS POR REGIÃO E DEMOGRAFIA
+================================================================================
+
+[1] Carregando dados...
+Shape inicial: (31304, 13)
+
+Colunas: ['Year', 'quarter', 'Bene_Geo_Desc', 'Bene_Mdcd_Mdcr_Enrl_Stus', 'Bene_Race_Desc', 'Bene_Sex_Desc', 'Bene_Mdcr_Entlmt_Stus', 'Bene_Age_Desc', 'Bene_RUCA_Desc', 'Total_Bene_TH_Elig', 'Total_PartB_Enrl', 'Total_Bene_Telehealth', 'Pct_Telehealth']
+
+Primeiras linhas:
+   Year  quarter  ... Total_Bene_Telehealth Pct_Telehealth
+0  2020  Overall  ...            14826919.0         0.4791
+1  2020  Overall  ...             2859483.0         0.3981
+2  2020  Overall  ...            11945312.0         0.5040
+3  2020  Overall  ...                   NaN            NaN
+4  2020  Overall  ...             2322324.0         0.5680
+
+[5 rows x 13 columns]
+
+Shape após remover NaN em Pct_Telehealth: (27927, 13)
+Shape após filtrar agregações totais: (27927, 13)
+
+Mediana de Pct_Telehealth: 0.1776
+Distribuição de Alta_Adocao:
+Alta_Adocao
+1    13964
+0    13963
+Name: count, dtype: int64
+Proporção: 0.500
+
+================================================================================
+[2] ANÁLISE EXPLORATÓRIA DE DADOS
+================================================================================
+
+[2.1] Estatísticas Descritivas de Pct_Telehealth:
+count    27927.000000
+mean         0.211861
+std          0.131145
+min          0.000000
+25%          0.113700
+50%          0.177600
+75%          0.278900
+max          0.820200
+Name: Pct_Telehealth, dtype: float64
+
+[✓] Gráfico de distribuição salvo: distribuicao_variaveis.png
+
+[2.2] Análise por Região (RUCA):
+                    mean       std  count
+Bene_RUCA_Desc                           
+All             0.215133  0.132540  24885
+Rural           0.169017  0.103580   1508
+Urban           0.200901  0.124538   1534
+
+[2.3] Análise por Raça:
+                                   mean       std  count
+Bene_Race_Desc                                          
+American Indian/Alaska Native  0.231091  0.133995   1616
+Asian/Pacific Islander         0.195024  0.125958   1689
+Black/African American         0.222256  0.125563   1690
+Hispanic                       0.217962  0.127022   1690
+Non-Hispanic White             0.193136  0.118446   1690
+
+[2.4] Análise por Idade:
+                   mean       std  count
+Bene_Age_Desc                           
+0-64           0.317642  0.128655   1534
+65-74          0.181168  0.114085   1534
+75-84          0.175431  0.120004   1534
+85 and over    0.172320  0.118908   1534
+
+[2.5] Análise por Sexo:
+                   mean       std  count
+Bene_Sex_Desc                           
+Female         0.205372  0.122828   1534
+Male           0.179027  0.113479   1534
+
+[✓] Heatmap de correlação salvo: heatmap_correlacao.png
+
+[2.6] Correlações com Pct_Telehealth:
+Pct_Telehealth           1.000000
+Alta_Adocao              0.760043
+Status_Encoded           0.196839
+Total_Bene_Telehealth    0.108600
+Total_Bene_TH_Elig      -0.000474
+Total_PartB_Enrl        -0.007942
+Race_Encoded            -0.015536
+RUCA_Encoded            -0.053985
+Sex_Encoded             -0.060752
+Geo_Encoded             -0.075914
+Age_Encoded             -0.078930
+Year                    -0.435222
+Name: Pct_Telehealth, dtype: float64
+
+================================================================================
+[3] PREPARAÇÃO PARA MODELOS DE ML
+================================================================================
+
+Shape final para ML: X=(27927, 9), y_class=(27927,), y_reg=(27927,)
+
+Train set: 22341 amostras
+Test set: 5586 amostras
+
+================================================================================
+[4] MODELOS DE CLASSIFICAÇÃO (Alta vs Baixa Adoção)
+================================================================================
+
+[4.1] Random Forest Classifier
+Accuracy: 0.7889
+ROC-AUC: 0.8629
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.78      0.81      0.79      2793
+           1       0.80      0.77      0.78      2793
+
+    accuracy                           0.79      5586
+   macro avg       0.79      0.79      0.79      5586
+weighted avg       0.79      0.79      0.79      5586
+
+
+Feature Importance (Random Forest):
+              Feature  Importance
+0                Year    0.300962
+1         Geo_Encoded    0.168321
+6      Status_Encoded    0.134205
+7  Total_Bene_TH_Elig    0.131395
+4         Age_Encoded    0.117127
+8    Total_PartB_Enrl    0.115114
+2        Race_Encoded    0.023940
+5        RUCA_Encoded    0.004589
+3         Sex_Encoded    0.004347
+
+[4.2] Logistic Regression
+Accuracy: 0.6860
+ROC-AUC: 0.7481
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.69      0.69      0.69      2793
+           1       0.69      0.68      0.69      2793
+
+    accuracy                           0.69      5586
+   macro avg       0.69      0.69      0.69      5586
+weighted avg       0.69      0.69      0.69      5586
+
+
+Cross-Validation ROC-AUC (RF): 0.8594 (+/- 0.0093)
+Cross-Validation ROC-AUC (LR): 0.7400 (+/- 0.0100)
+
+[✓] Matriz de confusão salva: matriz_confusao_classificacao.png
+[✓] Curvas ROC salvas: curvas_roc.png
+
+================================================================================
+[5] MODELOS DE REGRESSÃO (Predição de Pct_Telehealth)
+================================================================================
+
+[5.1] Random Forest Regressor
+MSE: 0.008959
+RMSE: 0.094650
+MAE: 0.067538
+R²: 0.4688
+
+[5.2] Linear Regression
+MSE: 0.012497
+RMSE: 0.111790
+MAE: 0.086307
+R²: 0.2590
+
+Cross-Validation R² (RF): 0.4558 (+/- 0.0220)
+Cross-Validation R² (LR): 0.2492 (+/- 0.0150)
+
+[✓] Gráficos de predição salvos: predicao_regressao.png
+
+================================================================================
+[6] PERGUNTAS DE PESQUISA E INSIGHTS
+================================================================================
+
+--------------------------------------------------------------------------------
+PERGUNTA 1: É possível prever se uma combinação de características
+regionais e demográficas leva uma região a estar entre os grupos de
+alta adoção de telemedicina?
+--------------------------------------------------------------------------------
+
+RESPOSTA:
+Sim, é possível prever com boa acurácia. Os modelos de classificação
+apresentaram os seguintes resultados:
+
+  Random Forest:
+    - Accuracy: 78.9%
+    - ROC-AUC: 0.863
+
+  Logistic Regression:
+    - Accuracy: 68.6%
+    - ROC-AUC: 0.748
+
+As características mais importantes para prever alta adoção são:
+  Year: 0.301
+  Geo_Encoded: 0.168
+  Status_Encoded: 0.134
+  Total_Bene_TH_Elig: 0.131
+  Age_Encoded: 0.117
+
+
+Análise por Região (RUCA):
+                Pct_Telehealth  Alta_Adocao
+Bene_RUCA_Desc                             
+All                   0.215133     0.511955
+Urban                 0.200901     0.460235
+Rural                 0.169017     0.343501
+
+
+Análise por Raça:
+                               Pct_Telehealth  Alta_Adocao
+Bene_Race_Desc                                            
+American Indian/Alaska Native        0.231091     0.558787
+Black/African American               0.222256     0.538462
+Hispanic                             0.217962     0.526627
+Asian/Pacific Islander               0.195024     0.448194
+Non-Hispanic White                   0.193136     0.426036
+
+--------------------------------------------------------------------------------
+PERGUNTA 2: Quais fatores demográficos e regionais têm maior impacto
+na taxa de adoção de telemedicina?
+--------------------------------------------------------------------------------
+
+RESPOSTA:
+Com base na análise de correlação e importância das features:
+
+1. Impacto Regional (RUCA):
+   - Áreas Urbanas: 20.1%
+   - Áreas Rurais: 16.9%
+   - Diferença: 3.2% (Urbanas têm 3.2 pontos percentuais mais)
+
+2. Impacto por Faixa Etária:
+   - 0-64: 31.8%
+   - 65-74: 18.1%
+   - 75-84: 17.5%
+   - 85 and over: 17.2%
+
+3. Impacto por Raça:
+   - American Indian/Alaska Native: 23.1%
+   - Black/African American: 22.2%
+   - Hispanic: 21.8%
+   - Asian/Pacific Islander: 19.5%
+   - Non-Hispanic White: 19.3%
+
+4. Impacto por Sexo:
+   - Female: 20.5%
+   - Male: 17.9%
+
+--------------------------------------------------------------------------------
+PERGUNTA 3: Como a taxa de adoção de telemedicina varia ao longo do
+tempo e quais grupos demográficos mostraram maior crescimento?
+--------------------------------------------------------------------------------
+
+RESPOSTA:
+
+Evolução Temporal da Adoção de Telemedicina:
+          mean       std  count
+Year                           
+2020  0.324427  0.177540   5374
+2021  0.234887  0.115448   5380
+2022  0.192696  0.097405   5375
+2023  0.162008  0.085541   5365
+2024  0.159133  0.083975   5361
+2025  0.141281  0.066328   1072
+
+
+Crescimento por Grupo Demográfico (comparando primeiro e último ano):
+
+1. Por Raça:
+   - American Indian/Alaska Native: 36.6% → 12.7% (Δ -23.9%)
+   - Asian/Pacific Islander: 37.3% → 18.3% (Δ -19.0%)
+   - Black/African American: 34.1% → 15.9% (Δ -18.2%)
+   - Hispanic: 38.4% → 18.3% (Δ -20.0%)
+   - Non-Hispanic White: 32.8% → 15.7% (Δ -17.1%)
+
+2. Por Região (RUCA):
+   - Urban: 36.1% → 15.9% (Δ -20.2%)
+   - Rural: 28.4% → 12.3% (Δ -16.1%)
+
+3. Por Faixa Etária:
+   - 0-64: 42.0% → 25.7% (Δ -16.3%)
+   - 65-74: 32.7% → 14.1% (Δ -18.6%)
+   - 75-84: 33.4% → 13.0% (Δ -20.4%)
+   - 85 and over: 33.2% → 13.2% (Δ -20.0%)
+
+[✓] Gráfico de evolução temporal salvo: evolucao_temporal.png
+
+================================================================================
+[7] RESUMO FINAL
+================================================================================
+
+✓ Análise exploratória completa realizada
+✓ Modelos de classificação treinados e avaliados
+✓ Modelos de regressão treinados e avaliados
+✓ 3 perguntas de pesquisa respondidas
+
+✓ Gráficos gerados:
+  - distribuicao_variaveis.png
+  - heatmap_correlacao.png
+  - matriz_confusao_classificacao.png
+  - curvas_roc.png
+  - predicao_regressao.png
+  - evolucao_temporal.png
+
+================================================================================
+ANÁLISE CONCLUÍDA COM SUCESSO!
+================================================================================
