@@ -36,6 +36,7 @@ O dataset utilizado é o TMEDTREND_PUBLIC_250827.csv (fornecido pelo professor n
 ChallengeIA/
 
 │── TMEDTREND_PUBLIC_250827.csv
+├── Estudo.pdf
 ├── telehealth_analysis.py      
 ├── requirements.txt             
 ├── README.md                    
@@ -43,7 +44,6 @@ ChallengeIA/
 └── Gráficos gerados:
     ├── distribuicao_variaveis.png
     ├── heatmap_correlacao.png
-    ├── matriz_confusao_classificacao.png
     ├── curvas_roc.png
     ├── predicao_regressao.png
     └── evolucao_temporal.png
