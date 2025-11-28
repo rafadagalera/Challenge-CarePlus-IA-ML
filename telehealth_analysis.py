@@ -261,25 +261,6 @@ cv_scores_lr = cross_val_score(lr_classifier, X_train_scaled, y_class_train, cv=
 print(f"\nCross-Validation ROC-AUC (RF): {cv_scores_rf.mean():.4f} (+/- {cv_scores_rf.std()*2:.4f})")
 print(f"Cross-Validation ROC-AUC (LR): {cv_scores_lr.mean():.4f} (+/- {cv_scores_lr.std()*2:.4f})")
 
-# Matriz de confusão
-fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-cm_rf = confusion_matrix(y_class_test, y_class_pred_rf)
-sns.heatmap(cm_rf, annot=True, fmt='d', cmap='Blues', ax=axes[0])
-axes[0].set_title('Random Forest - Matriz de Confusão')
-axes[0].set_ylabel('Verdadeiro')
-axes[0].set_xlabel('Predito')
-
-cm_lr = confusion_matrix(y_class_test, y_class_pred_lr)
-sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Greens', ax=axes[1])
-axes[1].set_title('Logistic Regression - Matriz de Confusão')
-axes[1].set_ylabel('Verdadeiro')
-axes[1].set_xlabel('Predito')
-
-plt.tight_layout()
-plt.savefig('matriz_confusao_classificacao.png', dpi=300, bbox_inches='tight')
-print("\n[✓] Matriz de confusão salva: matriz_confusao_classificacao.png")
-plt.close()
 
 # Curvas ROC
 fpr_rf, tpr_rf, _ = roc_curve(y_class_test, y_class_proba_rf)
@@ -581,7 +562,6 @@ print(f"✓ 3 perguntas de pesquisa respondidas")
 print(f"\n✓ Gráficos gerados:")
 print(f"  - distribuicao_variaveis.png")
 print(f"  - heatmap_correlacao.png")
-print(f"  - matriz_confusao_classificacao.png")
 print(f"  - curvas_roc.png")
 print(f"  - predicao_regressao.png")
 print(f"  - evolucao_temporal.png")
