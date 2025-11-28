@@ -75,9 +75,8 @@ O script irá:
 1. **distribuicao_variaveis.png**: Distribuição de Pct_Telehealth (histograma, box plot, Q-Q plot)
 2. **heatmap_correlacao.png**: Matriz de correlação entre variáveis
 3. **matriz_confusao_classificacao.png**: Matrizes de confusão dos modelos de classificação
-4. **curvas_roc.png**: Curvas ROC comparando modelos de classificação
-5. **predicao_regressao.png**: Gráficos de predição vs valores reais (regressão)
-6. **evolucao_temporal.png**: Evolução temporal da adoção por diferentes grupos demográficos
+4. **predicao_regressao.png**: Gráficos de predição vs valores reais (regressão)
+5. **evolucao_temporal.png**: Evolução temporal da adoção por diferentes grupos demográficos
 
 ##  Principais Insights
 
